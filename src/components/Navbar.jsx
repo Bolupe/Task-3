@@ -1,24 +1,19 @@
-import { Link } from "react-router-dom"; // Import Link for navigation
-import logo from "../assets/logo.png"; // Import the logo image
-import { FaSearch } from "react-icons/fa"; // Import the FaSearch icon from react-icons
-import { searchMovies } from "../movieApi"; // Import the function to search movies from your movieApi.js file
-import { useEffect, useRef, useState } from "react"; // Import useEffect, useRef, and useState from React
+import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
+import { FaSearch } from "react-icons/fa";
+import { searchMovies } from "../movieApi";
+import { useEffect, useRef, useState } from "react";
 
 export default function Navbar() {
-  // State variables
-  const [searchModal, setSearchModal] = useState(false); // Toggle search modal
-  const [query, setQuery] = useState(""); // Store the search query
-  const [search, setSearch] = useState(""); // Store search results
-
-  // Ref to the search container
+  const [searchModal, setSearchModal] = useState(false);
+  const [query, setQuery] = useState("");
+  const [search, setSearch] = useState("");
   const searchContainerRef = useRef(null);
 
-  // Handle input change
   function handleInputChange(e) {
     setQuery(e.target.value);
   }
 
-  // Handle search query submission
   async function handleSearchQuery(e) {
     e.preventDefault();
     try {
@@ -30,12 +25,10 @@ export default function Navbar() {
     }
   }
 
-  // Handle clicking on a search result
   const handleResultClick = () => {
     setSearchModal(false);
   };
 
-  // Handle clicking outside the search container to close the modal
   const handleClickOutside = (e) => {
     if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
       setSearchModal(false);
@@ -43,10 +36,8 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    // Add event listener for clicking outside the search container
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      // Clean up the event listener
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
@@ -57,7 +48,7 @@ export default function Navbar() {
       <Link to={`/`} className="flex items-center lg:gap-6 md:gap-4 gap-2">
         <img src={logo} alt="logo" className="md:w-12 w-8 md:h-12 h-8" />
         <h1 className="text-lg font-bold hidden md:block">MovieBox</h1>
-        <h1 className="text-base font-bold md:hidden">MovieBox</h1> {/* Responsive heading for smaller screens */}
+        <h1 className="text-sm font-bold md:hidden">MovieBox</h1>
       </Link>
 
       {/* Search input */}
@@ -68,7 +59,7 @@ export default function Navbar() {
           name="search"
           placeholder="What do you want to watch?"
           type="text"
-          className="bg-transparent border border-white pl-2.5 py-1.5 w-full rounded-md outline-none font-semibold"
+          className="bg-transparent border border-white pl-2.5 py-1.5 w-full rounded-md outline-none font-semibold md:w-full sm:w-40"
         />
         <button
           onClick={handleSearchQuery}
@@ -97,9 +88,7 @@ export default function Navbar() {
 
       {/* Sign-in and user icon */}
       <div className="flex items-center lg:gap-6 md:gap-4 gap-2">
-      <h1 className="text-base font-bold md:block hidden">Sign in</h1>
-        {/* Responsive heading for smaller screens */}
-        <h1 className="text-sm font-bold md:hidden">Sign in</h1>
+        <h1 className="text-base font-bold md:block hidden text-sm md:text-base">Sign in</h1>
         <p className="bg-[#BE123C] flex items-center justify-center w-9 h-9 p-2.5 rounded-full">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className="w-6 h-6">
             <path d="M3.59998 8.40001C3.59998 7.73727 4.13723 7.20001 4.79998 7.20001H19.2C19.8627 7.20001 20.4 7.73727 20.4 8.40001C20.4 9.06275 19.8627 9.60001 19.2 9.60001H4.79998C4.13723 9.60001 3.59998 9.06275 3.59998 8.40001Z" fill="white"/>

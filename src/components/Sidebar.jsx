@@ -1,16 +1,17 @@
+import React from "react";
+import { Link } from "react-router-dom";
 import { GoHome } from "react-icons/go";
 import { BiCameraMovie } from "react-icons/bi";
 import { PiMonitorPlayBold } from "react-icons/pi";
 import { CgCalendarDates } from "react-icons/cg";
 import { TbLogout } from "react-icons/tb";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   return (
     <aside className="py-12 border border-black/30 rounded-br-[45px] rounded-tr-[45px] w-[20vw]">
       {/* Logo and Home Link */}
-      <Link to={`/home`} className="flex gap-x-2 xl:pl-16 lg:pl-10 pl-0 mb-16 items-center">
+      <Link to={`/`} className="flex gap-x-2 xl:pl-16 lg:pl-10 pl-0 mb-16 items-center">
         <img src={logo} alt="website logo" className="md:w-12 w-8 md:h-12 h-8 lg:mx-0 mx-auto"/>
         <h1 className="text-[#333] text-2xl font-home font-bold xl:block hidden">MovieBox</h1>
       </Link>
@@ -18,10 +19,12 @@ export default function Sidebar() {
       {/* Navigation Menu */}
       <ul className="font-detail text-xl text-[#666] font-semibold">
         {/* Home */}
+        <Link to={`/`}>
         <li className="flex items-center xl:pl-16 lg:pl-10 pl-2 gap-x-4 mx-auto text-center w-full py-7">
           <span><GoHome className="text-3xl lg:block sm:hidden block ml-4" /></span>
           <span className="sm:block hidden sm:mx-0 mx-auto">Home</span>
         </li>
+        </Link>
 
         {/* Movies */}
         <li className="flex items-center xl:pl-16 lg:pl-10 pl-2 gap-x-4 mx-auto text-center w-full py-7 bg-[#BE123C]/20 border border-r-[6px] border-[#BE123C] border-y-0 border-l-0 text-[#BE123C]">

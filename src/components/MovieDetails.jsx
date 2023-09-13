@@ -21,7 +21,7 @@ export default function MovieDetails({
         <img
           src={`https://image.tmdb.org/t/p/w200${movieBackdrop}`}
           alt="backdrop of movie"
-          className="w-full h-[380px] object-cover rounded-[20px]"
+          className="w-full h-[350px] object-cover rounded-[20px]"
         />
         {/* Play Button */}
         <div className="absolute flex flex-col justify-center items-center gap-y-2 text-2xl top-[30%] lg:left-[40%] left-[25%] text-center text-[#E8E8E8]">
@@ -55,7 +55,7 @@ export default function MovieDetails({
       </div>
 
       {/* Movie Details */}
-      <div className="flex justify-center lg:flex-row flex-col items-center gap-x-6 xl:text-xl lg:text-lg text-base font-normal text-[#333] gap-y-10">
+      <div className="flex justify-center lg:flex-row flex-col items-center gap-x-6 text-base font-normal text-[#333] gap-y-10">
         {/* Left Column */}
         <div className="flex flex-col gap-y-9 lg:w-2/3 w-full">
           {/* Movie Overview */}
