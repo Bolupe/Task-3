@@ -3,27 +3,36 @@ import logo from "../assets/logo.png";
 import { FaSearch } from "react-icons/fa";
 import { searchMovies } from "../movieApi";
 import { useEffect, useRef, useState } from "react";
+import Loading from "./Loading";
 
 export default function Navbar() {
   const [searchModal, setSearchModal] = useState(false);
   const [query, setQuery] = useState("");
-  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
   const searchContainerRef = useRef(null);
 
-  function handleInputChange(e) {
+  const handleInputChange = (e) => {
     setQuery(e.target.value);
-  }
+  };
 
-  async function handleSearchQuery(e) {
+  const handleSearchQuery = async (e) => {
     e.preventDefault();
-    try {
-      const results = await searchMovies(query);
-      setSearchModal(true);
-      setSearch(results);
-    } catch (error) {
-      console.error('Error:', error);
+    if (query.trim() === "") {
+      return;
     }
-  }
+
+    try {
+      setLoading(true);
+      const results = await searchMovies(query);
+      setSearchResults(results);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+      setSearchModal(true);
+    }
+  };
 
   const handleResultClick = () => {
     setSearchModal(false);
@@ -36,11 +45,12 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
 
   return (
     <nav className="flex justify-between py-4">
@@ -52,39 +62,57 @@ export default function Navbar() {
       </Link>
 
       {/* Search input */}
-      <label htmlFor="search" className="relative flex items-center lg:gap-6 gap-4 xl:w-[500px] lg:w-[400px] md:w-[300px] w-[200px] h-9 md:text-base text-sm">
-        <input
-          value={query}
-          onChange={handleInputChange}
-          name="search"
-          placeholder="What do you want to watch?"
-          type="text"
-          className="bg-transparent border border-white pl-2.5 py-1.5 w-full rounded-md outline-none font-semibold md:w-full sm:w-40"
-        />
-        <button
-          onClick={handleSearchQuery}
-          type="submit"
-          className="absolute right-[10px]">
-          <FaSearch />
-        </button>
+      <form onSubmit={handleSearchQuery}>
+        <label
+          htmlFor="search"
+          className="relative flex items-center lg:gap-6 gap-4 xl:w-[500px] lg:w-[400px] md:w-[300px] w-[200px] h-9 md:text-base text-sm"
+        >
+          <input
+            value={query}
+            onChange={handleInputChange}
+            name="search"
+            placeholder="What do you want to watch?"
+            type="text"
+            className="bg-transparent border border-white pl-2.5 py-1.5 w-full rounded-md outline-none font-semibold md:w-full sm:w-40"
+          />
+          <button type="submit" className="absolute right-[10px]">
+            <FaSearch />
+          </button>
 
-        {/* Search results */}
-        {searchModal && (
-          <ul className="border border-[#BE123C] absolute top-12 w-full bg-white text-black p-4 rounded-xl z-[99]" ref={searchContainerRef} style={{ maxHeight: '300px', overflowY: 'auto' }}>
-            {search.map(result => (
-              <li
-                className="py-4 border-b border-[#BE123C]/40"
-                key={result.id}
-                onClick={() => handleResultClick(result.id)}>
-                <Link to={`/movies/${result.id}`}>
-                  <p className="font-bold">{result.title}</p>
-                  <p className="italic mt-2">{result.release_date}</p>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-      </label>
+          {/* Search results */}
+          {searchModal && (
+            <div
+              className="border border-[#BE123C] absolute top-12 w-full bg-white text-black p-4 rounded-xl z-[99] max-h-[300px] overflow-y-auto"
+              ref={searchContainerRef}
+            >
+              {loading ? (
+                 <Loading /> // showing a loading indicator while fetching search results
+              ) : (
+                // Rendering search results
+                searchResults.map((result) => (
+                  <div
+                    className="py-4 border-b border-[#BE123C]/40 cursor-pointer"
+                    key={result.id}
+                    onClick={() => handleResultClick(result.id)}
+                  >
+                    <Link to={`/movies/${result.id}`} className="flex items-center">
+                      <img
+                        src={`https://image.tmdb.org/t/p/w200${result.poster_path}`}
+                        alt={`${result.title} poster`}
+                        className="w-12 h-18 object-cover"
+                      />
+                      <div className="ml-3">
+                        <p className="font-bold">{result.title}</p>
+                        <p className="italic mt-1">{result.release_date}</p>
+                      </div>
+                    </Link>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </label>
+      </form>
 
       {/* Sign-in and user icon */}
       <div className="flex items-center lg:gap-6 md:gap-4 gap-2">

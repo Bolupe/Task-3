@@ -3,8 +3,7 @@ import Sidebar from "./Sidebar";
 import MovieDetails from "./MovieDetails";
 import { useEffect, useState } from "react";
 import { fetchMovieDetailsWithId } from "../movieApi";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import Loading from "./Loading";
 
 export default function MoviesDetailsPage() {
   // Get the movie ID from the URL
@@ -42,12 +41,7 @@ export default function MoviesDetailsPage() {
       <Sidebar />
       <>
         {loading ? (
-          // Display a loading message while data is being fetched
-          <h1 className="text-4xl font-bold text-center flex items-center justify-center h-screen">
-          <FontAwesomeIcon icon={faSpinner} spin className="text-[2em] mr-2" />
-          Loading...
-          </h1>
-
+          <Loading/>
         ) : (
           // Render the MovieDetails component with fetched data
           <MovieDetails
