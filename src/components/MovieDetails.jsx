@@ -7,9 +7,9 @@ import option from "../assets/showTimes.png";
 
 export default function MovieDetails({
   movieBackdrop,
-  movieTitle,
-  movieDuration,
-  yearOfRelease,
+  title,
+  runtime,
+  releaseDate,
   genre,
   voteAverage,
   overview,
@@ -37,10 +37,10 @@ export default function MovieDetails({
         {/* Movie Title, Release Date, Rating, and Duration */}
         <div className="flex items-center flex-wrap gap-x-5 gap-y-3">
           <p className="text-[#404040] text-2xl flex gap-x-3 flex-wrap">
-            <span data-testid="movie-title">{movieTitle}</span>•
-            <span data-testid="movie-release-date">{yearOfRelease}</span>•
+            <span data-testid="movie-title">{title}</span>•
+            <span data-testid="movie-release-date">{releaseDate}</span>•
             <span>PG-13</span>•
-            <span data-testid="movie-runtime">{movieDuration} minutes</span>
+            <span data-testid="movie-runtime">{runtime} minutes</span>
           </p>
           <p className="flex gap-x-6 flex-wrap text-[#B91C1C] text-[15px] font-medium">{genre}</p>
         </div>
