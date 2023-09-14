@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { fetchMoviesFromApi, fetchMovieGenre } from "../movieApi";
 import { FaAngleRight } from "react-icons/fa";
-import MovieCard from "./MovieCard";
+import Card from "./Card";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function FeaturedMovies() {
   // State variables
@@ -51,11 +53,15 @@ export default function FeaturedMovies() {
       {/* Display loading message while fetching data or render movie cards */}
       <>
         {loading ? (
-          <h1>Loading...</h1>
-        ) : (
+          // Display a loading message while data is being fetched
+          <h1 className="text-4xl font-bold text-center flex items-center justify-center h-screen">
+          <FontAwesomeIcon icon={faSpinner} spin className="text-[2em] mr-2" />
+          Loading...
+          </h1>        
+          ) : (
           <div className="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-1 xl:gap-20 gap-10 sm:mx-0 mx-5">
             {movies.map((movie) => (
-              <MovieCard
+              <Card
                 releaseDate={movie.release_date.slice(0, 4)}
                 key={movie.id}
                 id={movie.id}

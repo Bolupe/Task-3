@@ -5,7 +5,7 @@ import { AiFillHeart } from "react-icons/ai";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-export default function MovieCard({ id, movieTitle, moviePoster, originCountry, movieGenre, releaseDate }) {
+export default function Card({ id, movieTitle, moviePoster, originCountry, movieGenre, releaseDate }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
   // Function to handle favorite toggle
@@ -54,7 +54,7 @@ export default function MovieCard({ id, movieTitle, moviePoster, originCountry, 
 }
 
 // Prop type validation
-MovieCard.propTypes = {
+Card.propTypes = {
   id: PropTypes.number.isRequired,
   movieTitle: PropTypes.string.isRequired,
   moviePoster: PropTypes.string.isRequired,

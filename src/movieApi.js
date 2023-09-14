@@ -15,6 +15,7 @@ export async function fetchMoviesFromApi() {
     return response.data.results;
   } catch (error) {
     console.error('Error fetching top-rated movies:', error);
+    alert('An error occurred while fetching top-rated movies. Please try again later.');
     throw error;
   }
 }
@@ -32,6 +33,7 @@ export const searchMovies = async (query) => {
     return response.data.results;
   } catch (error) {
     console.error('Error searching for movies:', error);
+    alert('An error occurred while searching for movies. Please try again later.');
     throw error;
   }
 }
@@ -48,6 +50,7 @@ export async function fetchMovieDetailsWithId(id) {
     return response.data;
   } catch (error) {
     console.error('Error fetching movie details:', error);
+    alert('An error occurred while fetching movie details. Please try again later.');
     throw error;
   }
 }
@@ -63,6 +66,7 @@ export async function fetchMovieGenre() {
     return response.data.genres;
   } catch (error) {
     console.error('Error fetching movie genres:', error);
+    alert('An error occurred while fetching movie genres. Please try again later.');
     throw error;
   }
 }

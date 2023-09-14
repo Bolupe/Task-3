@@ -122,9 +122,9 @@ export default function MovieDetails({
 // Prop type validation
 MovieDetails.propTypes = {
   movieBackdrop: PropTypes.string.isRequired,
-  movieTitle: PropTypes.string.isRequired,
-  movieDuration: PropTypes.string.isRequired, // Change the type to string
-  yearOfRelease: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  runtime: PropTypes.string.isRequired, // Change the type to string
+  releaseDate: PropTypes.string.isRequired,
   genre: PropTypes.array.isRequired, // Change the type to array
   voteAverage: PropTypes.number.isRequired,
   overview: PropTypes.string.isRequired,
