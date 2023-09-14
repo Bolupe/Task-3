@@ -2,17 +2,40 @@ import { Link } from "react-router-dom";
 import imdbRating from "../assets/imdbLogo.png";
 import tomatoRating from "../assets/tomatoLogo.png";
 import { AiFillHeart } from "react-icons/ai";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { fetchMovieReleaseDates } from "../movieApi"; // Import the function to fetch release dates
 
-export default function Card({ id, movieTitle, moviePoster, originCountry, movieGenre, releaseDate }) {
+export default function Card({ id, movieTitle, moviePoster, originCountry, movieGenre }) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [fullReleaseDate, setFullReleaseDate] = useState(""); // State variable to store full release date in UTC format
 
   // Function to handle favorite toggle
   function handleFavoriteToggle(e) {
     e.preventDefault(); // Prevent default link behavior
     setIsFavorite((prev) => !prev);
   }
+
+  useEffect(() => {
+    // Fetch the full release date when the component mounts
+    async function fetchFullReleaseDate() {
+      try {
+        // Use the fetchMovieReleaseDates function to get release dates
+        const releaseDates = await fetchMovieReleaseDates(id);
+        // Filter for the specific release date you need (e.g., USA)
+        const usaRelease = releaseDates.find((date) => date.iso_3166_1 === "US");
+        if (usaRelease) {
+          // Convert the release date to UTC format
+          const releaseDateUTC = new Date(usaRelease.release_dates[0].release_date).toUTCString();
+          setFullReleaseDate(releaseDateUTC);
+        }
+      } catch (error) {
+        console.error("Error fetching full release date:", error);
+      }
+    }
+
+    fetchFullReleaseDate();
+  }, [id]);
 
   return (
     <Link to={`/movies/${id}`} className="flex flex-col gap-y-3 font-bold w-full" data-testid="movie-card">
@@ -29,7 +52,7 @@ export default function Card({ id, movieTitle, moviePoster, originCountry, movie
       {/* Country and Release Date */}
       <p className="text-[#9CA3AF] text-xs">
         <span>{originCountry}USA, </span>
-        <span data-testid="movie-release-date">{releaseDate}</span>
+        <span data-testid="movie-release-date">{fullReleaseDate}</span> {/* Display the full release date in UTC format */}
       </p>
       
       {/* Movie Title */}
@@ -60,7 +83,4 @@ Card.propTypes = {
   moviePoster: PropTypes.string.isRequired,
   originCountry: PropTypes.string.isRequired,
   movieGenre: PropTypes.string.isRequired,
-  releaseDate: PropTypes.string.isRequired,
 };
-
-

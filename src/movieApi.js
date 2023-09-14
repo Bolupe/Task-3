@@ -70,3 +70,14 @@ export async function fetchMovieGenre() {
     throw error;
   }
 }
+
+export async function fetchMovieReleaseDates(movieId) {
+  try {
+    const response = await axios.get(`${API_URL}/movie/${movieId}/release_dates?api_key=${API_KEY}`);
+    return response.data.results;
+  } catch (error) {
+    console.error('Error fetching release dates:', error);
+    alert('An error occurred while fetching release dates. Please try again later.');
+    throw error;
+  }
+}
