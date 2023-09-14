@@ -88,15 +88,16 @@ export async function fetchMovieReleaseDates(movieId) {
  * @returns {Object} Details of the country that owns the movie.
  * @throws {Error} If there is an issue with the API request.
  */
-export async function fetchMovieCountry(isoCode) {
-  try {
-    const response = await axios.get(`${API_URL}/configuration/countries?api_key=${API_KEY}&language=en-US`);
-    const countries = response.data;
-    const country = countries.find((c) => c.iso_3166_1 === isoCode);
-    return country;
-  } catch (error) {
-    console.error('Error fetching movie country:', error);
-    alert('An error occurred while fetching movie country. Please try again later.');
-    throw error;
-  }
-}
+// trying to fetch country data, but nahh later
+// export async function fetchMovieCountry(isoCode) {
+//   try {
+//     const response = await axios.get(`${API_URL}/configuration/countries?api_key=${API_KEY}&language=en-US`);
+//     const countries = response.data;
+//     const country = countries.find((c) => c.iso_3166_1 === isoCode);
+//     return country;
+//   } catch (error) {
+//     console.error('Error fetching movie country:', error);
+//     alert('An error occurred while fetching movie country. Please try again later.');
+//     throw error;
+//   }
+// }
