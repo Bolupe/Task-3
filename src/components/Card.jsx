@@ -8,7 +8,7 @@ import { fetchMovieReleaseDates } from "../movieApi"; // Import the function to 
 
 export default function Card({ id, movieTitle, moviePoster, originCountry, movieGenre }) {
   const [isFavorite, setIsFavorite] = useState(false);
-  const [fullReleaseDate, setFullReleaseDate] = useState(""); // State variable to store full release date in UTC format
+  const [fullReleaseDate, setFullReleaseDate] = useState(""); // State variable to store full release date
 
   // Function to handle favorite toggle
   function handleFavoriteToggle(e) {
@@ -25,9 +25,14 @@ export default function Card({ id, movieTitle, moviePoster, originCountry, movie
         // Filter for the specific release date you need (e.g., USA)
         const usaRelease = releaseDates.find((date) => date.iso_3166_1 === "US");
         if (usaRelease) {
-          // Convert the release date to UTC format
-          const releaseDateUTC = new Date(usaRelease.release_dates[0].release_date).toUTCString();
-          setFullReleaseDate(releaseDateUTC);
+          // Convert the release date to a formatted string (day of the week, date, name of month, and year)
+          const releaseDate = new Date(usaRelease.release_dates[0].release_date).toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+          setFullReleaseDate(releaseDate);
         }
       } catch (error) {
         console.error("Error fetching full release date:", error);
@@ -51,8 +56,8 @@ export default function Card({ id, movieTitle, moviePoster, originCountry, movie
       
       {/* Country and Release Date */}
       <p className="text-[#9CA3AF] text-xs">
-        <span>{originCountry}USA, </span>
-        <span data-testid="movie-release-date">{fullReleaseDate}</span> {/* Display the full release date in UTC format */}
+        <span>{originCountry} USA, </span>
+        <span data-testid="movie-release-date">{fullReleaseDate}</span> {/* Display the formatted release date */}
       </p>
       
       {/* Movie Title */}
